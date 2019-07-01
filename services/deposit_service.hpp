@@ -3,10 +3,13 @@
 
 #include <boost/noncopyable.hpp>
 
-#include "typedefs.hpp"
+#include "model/typedefs.hpp"
 
 namespace Service {
-    class DepositService : public boost::noncopyable {
+    struct DepositService : public boost::noncopyable {
+
+            virtual ~DepositService() = default;
+
             virtual Model::EntityID createSavingsDeposit(
                     Model::EntityID ownerId, double initialBalance, double minBalance, double rateOfInterest) const = 0;
 

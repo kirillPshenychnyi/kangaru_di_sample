@@ -4,7 +4,7 @@
 #include <boost/noncopyable.hpp>
 #include <string>
 
-#include "typedefs.hpp"
+#include "model/typedefs.hpp"
 
 namespace Service {
     struct AccountService : public boost::noncopyable {
