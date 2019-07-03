@@ -1,3 +1,6 @@
 [submodule "kangaru"]
 	path = kangaru
 	url = https://github.com/gracicot/kangaru.git
+[submodule "Catch2"]
+	path = Catch2
+	url = https://github.com/catchorg/Catch2.git
