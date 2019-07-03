@@ -2,7 +2,8 @@
 #define KANGARU_DI_SAMPLE_REPOSITORY_HPP
 
 #include <boost/noncopyable.hpp>
-#include <boost/optional>
+#include <boost/optional/optional.hpp>
+#include <memory>
 
 #include "model/typedefs.hpp"
 

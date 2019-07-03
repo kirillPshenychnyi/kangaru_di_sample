@@ -13,4 +13,4 @@ add_executable(
         services/account_service.hpp model/typedefs.hpp
         services/deposit_service.hpp model/savings_deposit.hpp
         model/current_deposit.hpp model/fixed_deposit.hpp
-        repositories/repository.hpp)
+        repositories/repository.hpp repositories/account_repository.hpp repositories/deposit_repository.hpp)
