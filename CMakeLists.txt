@@ -5,9 +5,12 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(${kangaru_di_sample_SOURCE_DIR})
 
+add_subdirectory(kangaru)
+
 add_executable(
         kangaru_di_sample
         main.cpp
+        Catch2/include/catch.hpp
         model/account.hpp model/employee.hpp
         model/entity.hpp model/deposit.hpp
         services/account_service.hpp model/typedefs.hpp
