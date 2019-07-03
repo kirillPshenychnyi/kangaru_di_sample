@@ -1,0 +1,3 @@
+[submodule "kangaru"]
+	path = kangaru
+	url = https://github.com/gracicot/kangaru.git
