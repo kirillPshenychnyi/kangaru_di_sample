@@ -12,7 +12,7 @@ namespace Repository {
     struct AccountRepository : public BaseRepository<Model::Account> {
         virtual boost::optional<Model::Employee&> findEmployee(Model::EntityID id) = 0;
 
-        virtual void promote(Model::EntityID id, ) = 0;
+        virtual void promote(Model::EntityID id) = 0;
     };
 }
 

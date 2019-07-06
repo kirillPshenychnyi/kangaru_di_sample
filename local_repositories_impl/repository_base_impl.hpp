@@ -36,6 +36,17 @@ namespace LocalRepo {
                 enteties.erase(id);
             }
 
+        protected:
+            template <typename Target, template<typename> class CastVisitor>
+            boost::optional<Target&> resolveSpecificEntity(Model::EntityID id) {
+                auto base = resolveEntity(id);
+                if(base) {
+                    return CastVisitor<Target>().cast(*base);
+                }
+
+                return boost::optional<Target&>();
+            }
+
         private:
             EntitySet enteties;
     };

@@ -22,4 +22,4 @@ add_executable(
         local_repositories_impl/account_repository_impl.hpp
         model/utils/generic_visitor.hpp model/utils/default_visitor.hpp
         model/utils/cast_visitor.hpp model/visitors/account_visitor.hpp
-        model/account.cpp model/employee.cpp)
+        model/account.cpp model/employee.cpp services_impl/account_service_impl.cpp services_impl/account_service_impl.hpp services_impl/base_service_impl.hpp)
