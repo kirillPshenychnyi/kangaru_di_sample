@@ -17,7 +17,9 @@ namespace Model {
                 position_ = accessLevel;
             }
 
-            void accept(AccountVisitor& visitor) override;
+            void accept(AccountVisitor& visitor) override{
+                visitor.visit(*this);
+            }
 
         private:
             Position position_;

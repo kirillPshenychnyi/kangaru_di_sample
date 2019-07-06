@@ -8,7 +8,7 @@ namespace Utils {
 
     template <typename T, typename... Other>
     struct Visitor<T, Other...> : public Visitor<Other...> {
-        virtual ~Visitor() = default;
+        virtual ~Visitor() noexcept = default;
 
         using BaseClass = Visitor<Other...>;
         using BaseClass::visit;

@@ -9,18 +9,18 @@
 namespace Repository {
 namespace LocalRepo {
 
-    template<typename T, typename Repo>
+    template<typename TEntity, typename Repo>
     class BaseRepositoryImpl : public Repo {
         private:
-            using EntityPtr = std::unique_ptr<T>;
+            using EntityPtr = std::unique_ptr<TEntity>;
             using EntitySet = boost::unordered_map<Model::EntityID, EntityPtr>;
 
         public:
             virtual ~BaseRepositoryImpl() = default;
 
-            boost::optional<T&> resolveEntity(Model::EntityID id) final {
+            boost::optional<TEntity&> resolveEntity(Model::EntityID id) final {
                 auto entity = enteties.find(id);
-                return entity == enteties.end() ? boost::optional<T&>() : *entity->second;
+                return entity == enteties.end() ? boost::optional<TEntity&>() : *entity->second;
             }
 
             int getSize() const final {
@@ -44,7 +44,7 @@ namespace LocalRepo {
                     return CastVisitor<Target>().cast(*base);
                 }
 
-                return boost::optional<Target&>();
+                return {};
             }
 
         private:

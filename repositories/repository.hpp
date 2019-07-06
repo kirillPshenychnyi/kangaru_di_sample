@@ -10,7 +10,7 @@
 namespace Repository {
     template <typename T>
     struct BaseRepository : public boost::noncopyable {
-        virtual ~BaseRepository() = default;
+        virtual ~BaseRepository() noexcept = default;
 
         virtual boost::optional<T&> resolveEntity(Model::EntityID id) = 0;
 

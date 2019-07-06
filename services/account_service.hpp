@@ -8,7 +8,7 @@
 
 namespace Service {
     struct AccountService : public boost::noncopyable {
-        virtual ~AccountService() = default;
+        virtual ~AccountService() noexcept = default;
 
         virtual Model::EntityID createAccount(std::string name, std::string email, std::string passwordHash) = 0;
 

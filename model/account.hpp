@@ -2,7 +2,9 @@
 #define KANGARU_DI_SAMPLE_ACCOUNT_HPP
 
 #include <string>
+
 #include "entity.hpp"
+#include "model/visitors/account_visitor.hpp"
 
 namespace Model {
 
@@ -33,7 +35,9 @@ namespace Model {
                 email_ = std::move(passwordHash);
             }
 
-            virtual void accept(AccountVisitor& visitor);
+            virtual void accept(AccountVisitor& visitor) {
+                visitor.visit(*this);
+            }
 
         private:
             const std::string name_;

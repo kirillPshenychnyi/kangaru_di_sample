@@ -5,9 +5,10 @@
 
 namespace Model {
     class Account;
+    class DepositVisitor;
 
     class Deposit : public Entity {
-        protected:
+        public:
             Deposit(Model::EntityID id, const Account& owner, double initialBalance, double rateOfInterest)
             : Entity(id), owner_(owner), rateOfInterest_(rateOfInterest), balance_(initialBalance) {}
 
@@ -27,6 +28,8 @@ namespace Model {
             double getRateOfInterest() const {
                 return rateOfInterest_;
             }
+
+            virtual void accept(DepositVisitor& visitor) = 0;
 
         private:
             const Account& owner_;
