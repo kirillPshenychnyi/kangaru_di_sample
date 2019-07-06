@@ -17,6 +17,8 @@ namespace Model {
                 position_ = accessLevel;
             }
 
+            void accept(AccountVisitor& visitor) override;
+
         private:
             Position position_;
     };

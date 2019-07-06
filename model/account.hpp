@@ -5,6 +5,9 @@
 #include "entity.hpp"
 
 namespace Model {
+
+    struct AccountVisitor;
+
     class Account : public Entity {
         public:
             Account(std::string name, std::string email, std::string passwordHash, Model::EntityID id) :
@@ -29,6 +32,8 @@ namespace Model {
             void setEmail(std::string passwordHash) {
                 email_ = std::move(passwordHash);
             }
+
+            virtual void accept(AccountVisitor& visitor);
 
         private:
             const std::string name_;
