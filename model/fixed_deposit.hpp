@@ -12,6 +12,17 @@ namespace Model {
             void accept(DepositVisitor& visitor) final {
                 visitor.visit(*this);
             }
+
+            int getMaturity() const {
+                return maturity_;
+            }
+
+            void mature() {
+                ++maturity_;
+            }
+
+        private:
+            int maturity_ = 0;
     };
 }
 

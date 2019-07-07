@@ -56,6 +56,32 @@ namespace Impl {
         double ammount_ = 0.0;
     };
 
+    struct YearProcessor : public Model::DepositVisitor {
+        static void process(Model::Deposit& deposit) {
+            YearProcessor processor;
+            deposit.accept(processor);
+        }
+
+        void visit(Model::SavingsDeposit& savings) override {
+            savings.refill(savings.getBalance() * (savings.getRateOfInterest() / 100.0));
+        }
+
+        void visit(Model::FixedDeposit& entity) override {
+            static double maturityInterest = 0.2;
+            double maturityCharge = entity.getMaturity() * maturityInterest;
+            entity.refill(entity.getBalance() * ((entity.getRateOfInterest() + maturityCharge) / 100.0));
+            entity.mature();
+        }
+
+        void visit(Model::CurrentDeposit& current) override {
+            // Current deposit has 0 rate of interest. The holder pays operational charge
+            static const double operationalChargeInterest = 0.2;
+            double operationalCharge = current.getOverdraftLimit() * operationalChargeInterest;
+            current.withdraw(operationalCharge);
+        }
+    };
+
+
     DepositServiceImpl::DepositServiceImpl(
             Repository::DepositRepository& depositRepo, Repository::AccountRepository& accountRepo)
     : BaseClass(depositRepo), accountRepo_(accountRepo)
@@ -165,8 +191,26 @@ namespace Impl {
     }
 
     double DepositServiceImpl::closeDeposit(Model::EntityID depositID) {
-        return 0;
+        auto deposit = repository_.resolveEntity(depositID);
+
+        if(!deposit) {
+            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositID)).str());
+        }
+
+        double balance = deposit->getBalance();
+        repository_.remove(depositID);
+
+        return balance;
     }
 
+    void DepositServiceImpl::onBankPeriodPassed(Model::EntityID depositID) {
+        auto deposit = repository_.resolveEntity(depositID);
+
+        if(!deposit) {
+            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositID)).str());
+        }
+
+        YearProcessor::process(*deposit);
+    }
 }
 }

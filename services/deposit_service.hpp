@@ -30,6 +30,8 @@ namespace Service {
 
             virtual void setOverdraftLimit(Model::EntityID depositId, double overdraftLimit) = 0;
 
+            virtual void onBankPeriodPassed(Model::EntityID depositID) = 0;
+
             virtual double closeDeposit(Model::EntityID depositId) = 0;
     };
 }

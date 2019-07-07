@@ -40,6 +40,8 @@ namespace Impl {
 
             double closeDeposit(Model::EntityID depositID) final;
 
+            void onBankPeriodPassed(Model::EntityID depositID) final;
+
         private:
             Repository::AccountRepository& accountRepo_;
     };
