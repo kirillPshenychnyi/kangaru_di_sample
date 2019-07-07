@@ -12,7 +12,7 @@ namespace Impl {
 
     template <typename Repository, typename Service>
     class BaseServiceImpl : public Service {
-        protected:
+        public:
             explicit BaseServiceImpl(Repository& repository) : repository_(repository), generator_() {}
 
         public:

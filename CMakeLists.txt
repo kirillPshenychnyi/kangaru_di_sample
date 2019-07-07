@@ -28,4 +28,4 @@ add_executable(
         local_repositories_impl/deposit_repository_impl.hpp
         model/visitors/deposit_visitor.hpp
         services_impl/deposit_service_impl.hpp
-        services_impl/deposit_service_impl.cpp model/exceptions_messages.hpp)
+        services_impl/deposit_service_impl.cpp model/exceptions_messages.hpp dependency/bootsrapper.hpp dependency/bootsrapper.cpp)

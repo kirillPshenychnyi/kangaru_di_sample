@@ -15,6 +15,7 @@ namespace Impl {
 
             using BaseClass = BaseServiceImpl<Repository::AccountRepository, AccountService>;
 
+        public:
             using BaseClass::BaseServiceImpl;
 
             Model::EntityID createAccount(std::string name, std::string email, std::string passwordHash) final;
