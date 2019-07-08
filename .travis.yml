@@ -21,7 +21,4 @@ script:
   - cd release
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make
-
-after_script:
-  - cd release
   - ./kangaru_di_sample

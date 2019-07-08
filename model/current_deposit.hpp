@@ -15,7 +15,7 @@ namespace Model {
                 return overdraftLimit_;
             }
 
-            double setOverdraftLimit(double overdraftLimit) {
+            void setOverdraftLimit(double overdraftLimit) {
                 overdraftLimit_ = overdraftLimit;
             }
 
