@@ -11,7 +11,7 @@ namespace Model {
             const EntityID& getID() const { return entity_id_; }
 
         protected:
-            explicit Entity(EntityID entity_id) : entity_id_(entity_id) {}
+            explicit Entity(const EntityID& entity_id) : entity_id_(entity_id) {}
 
         private:
             const EntityID entity_id_;

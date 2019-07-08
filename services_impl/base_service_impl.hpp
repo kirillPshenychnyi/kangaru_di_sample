@@ -21,7 +21,7 @@ namespace Impl {
             }
 
             template <typename Entity, typename ... Args>
-            Model::EntityID create(Args&&... args) {
+            const Model::EntityID& create(Args&&... args) {
                 return repository_.insert(std::make_unique<Entity>(std::forward<Args>(args)...));
             }
 

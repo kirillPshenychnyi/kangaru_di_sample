@@ -9,7 +9,7 @@ namespace Model {
 
     class Deposit : public Entity {
         public:
-            Deposit(Model::EntityID id, const Account& owner, double initialBalance, double rateOfInterest)
+            Deposit(const Model::EntityID& id, const Account& owner, double initialBalance, double rateOfInterest)
             : Entity(id), owner_(owner), rateOfInterest_(rateOfInterest), balance_(initialBalance) {}
 
             const Account& getAccount() const { return owner_; }

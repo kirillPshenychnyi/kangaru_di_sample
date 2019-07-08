@@ -11,7 +11,7 @@
 namespace Service {
 namespace Impl {
 
-    Model::EntityID AccountServiceImpl::createAccount(std::string name, std::string email, std::string passwordHash) {
+    const Model::EntityID& AccountServiceImpl::createAccount(std::string name, std::string email, std::string passwordHash) {
         if(name.empty() || email.empty() || passwordHash.empty()){
             throw std::domain_error(Model::Exceptions::wrongStringParamValue);
         }
@@ -19,7 +19,7 @@ namespace Impl {
         return create<Model::Account>(std::move(name), std::move(email), std::move(passwordHash), generator_());
     }
 
-    void AccountServiceImpl::changeEmail(Model::EntityID entityId, std::string newEmail) {
+    void AccountServiceImpl::changeEmail(const Model::EntityID& entityId, std::string newEmail) {
         if(newEmail.empty()){
             throw std::domain_error(Model::Exceptions::wrongStringParamValue);
         }
@@ -33,7 +33,7 @@ namespace Impl {
         entity->setEmail(std::move(newEmail));
     }
 
-    void AccountServiceImpl::changePassword(Model::EntityID entityId, std::string newPassword) {
+    void AccountServiceImpl::changePassword(const Model::EntityID& entityId, std::string newPassword) {
         if(newPassword.empty()){
             throw std::domain_error(Model::Exceptions::wrongStringParamValue);
         }
@@ -46,7 +46,7 @@ namespace Impl {
         entity->setPassword(std::move(newPassword));
     }
 
-    void AccountServiceImpl::promote(Model::EntityID entityId, Model::Position newAccessLevel) {
+    void AccountServiceImpl::promote(const Model::EntityID& entityId, Model::Position newAccessLevel) {
         using namespace Model;
 
         auto employee = repository_.findEmployee(entityId);
@@ -58,11 +58,11 @@ namespace Impl {
         employee->promote(newAccessLevel);
     }
 
-    boost::optional<const Model::Account&> AccountServiceImpl::getAccount(Model::EntityID entityId) const {
+    boost::optional<const Model::Account&> AccountServiceImpl::getAccount(const Model::EntityID& entityId) const {
         return static_cast<const Repository::AccountRepository&>(repository_).resolveEntity(entityId);
     }
 
-    boost::optional<const Model::Employee&> AccountServiceImpl::getEmployee(Model::EntityID entityId) const {
+    boost::optional<const Model::Employee&> AccountServiceImpl::getEmployee(const Model::EntityID& entityId) const {
         return repository_.getEmployee(entityId);
     }
 
@@ -70,11 +70,11 @@ namespace Impl {
         return repository_.getSize();
     }
 
-    void AccountServiceImpl::deleteAccount(Model::EntityID entityId) {
+    void AccountServiceImpl::deleteAccount(const Model::EntityID& entityId) {
         remove(entityId);
     }
 
-    Model::EntityID
+    const Model::EntityID&
     AccountServiceImpl::createEmployeeAccount(std::string name, std::string email, std::string passwordHash,
                                               Model::Position accessLevel) {
         if(name.empty() || email.empty() || passwordHash.empty()){

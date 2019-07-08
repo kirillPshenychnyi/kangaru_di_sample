@@ -7,7 +7,7 @@
 namespace Model {
     class CurrentDeposit : public Deposit {
         public:
-            CurrentDeposit(Model::EntityID id, double overdraftLimit, double initialBalance, const Account& owner)
+            CurrentDeposit(const Model::EntityID& id, double overdraftLimit, double initialBalance, const Account& owner)
             : Deposit(id, owner, initialBalance, 0.0), overdraftLimit_(overdraftLimit) {}
 
         public:

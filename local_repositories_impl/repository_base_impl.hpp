@@ -32,10 +32,9 @@ namespace LocalRepo {
                 return enteties.size();
             }
 
-            Model::EntityID insert(EntityPtr entity) final {
+            const Model::EntityID& insert(EntityPtr entity) final {
                 Model::EntityID id = entity->getID();
-                enteties.emplace(id, std::move(entity));
-                return id;
+                return enteties.emplace(id, std::move(entity)).first->second->getID();
             }
 
             void remove(Model::EntityID id) final {

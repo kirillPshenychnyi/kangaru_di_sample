@@ -18,24 +18,24 @@ namespace Impl {
         public:
             using BaseClass::BaseServiceImpl;
 
-            Model::EntityID createAccount(std::string name, std::string email, std::string passwordHash) final;
+            const Model::EntityID& createAccount(std::string name, std::string email, std::string passwordHash) final;
 
-            Model::EntityID createEmployeeAccount(
+            const Model::EntityID& createEmployeeAccount(
                     std::string name, std::string email, std::string passwordHash, Model::Position accessLevel) final;
 
-            boost::optional<const Model::Account&> getAccount(Model::EntityID entityId) const final;
+            boost::optional<const Model::Account&> getAccount(const Model::EntityID& entityId) const final;
 
-            boost::optional<const Model::Employee&> getEmployee(Model::EntityID entityId) const final;
+            boost::optional<const Model::Employee&> getEmployee(const Model::EntityID& entityId) const final;
 
-            void changeEmail(Model::EntityID entityId, std::string newEmail) final;
+            void changeEmail(const Model::EntityID& entityId, std::string newEmail) final;
 
-            void changePassword(Model::EntityID entityId, std::string newPassword) final;
+            void changePassword(const Model::EntityID& entityId, std::string newPassword) final;
 
-            void promote(Model::EntityID entityId, Model::Position newAccessLevel) final;
+            void promote(const Model::EntityID& entityId, Model::Position newAccessLevel) final;
 
             int getAccountsSize() const final;
 
-            void deleteAccount(Model::EntityID entityId) final;
+            void deleteAccount(const Model::EntityID& entityId) final;
     };
 
 }

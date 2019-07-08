@@ -7,7 +7,7 @@
 namespace Model {
     class SavingsDeposit : public Deposit {
         public:
-            SavingsDeposit(Model::EntityID id, double minBalance, double initialBalance, double rateOfInterest, const Account& owner)
+            SavingsDeposit(const Model::EntityID& id, double minBalance, double initialBalance, double rateOfInterest, const Account& owner)
                 : Deposit(id, owner, initialBalance, rateOfInterest), minBalance_(minBalance) {}
 
             double getMinBalance() const { return minBalance_; }

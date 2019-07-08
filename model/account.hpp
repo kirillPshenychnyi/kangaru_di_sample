@@ -12,7 +12,7 @@ namespace Model {
 
     class Account : public Entity {
         public:
-            Account(std::string name, std::string email, std::string passwordHash, Model::EntityID id) :
+            Account(std::string name, std::string email, std::string passwordHash, const Model::EntityID& id) :
                 Entity(id), name_(std::move(name)), email_(std::move(email)), passwordHash_(std::move(passwordHash)) {}
 
             const std::string& getName() const {
