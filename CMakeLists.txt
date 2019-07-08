@@ -32,4 +32,4 @@ add_executable(
         services_impl/deposit_service_impl.cpp model/exceptions_messages.hpp
         dependency/bootsrapper.hpp
         tests/account_service_test.cpp tests/test_container_bootstrapper.cpp
-        tests/test_container_bootstrapper.hpp tests/exception_matcher.hpp)
+        tests/test_container_bootstrapper.hpp tests/exception_matcher.hpp tests/deposit_service_test.cpp)

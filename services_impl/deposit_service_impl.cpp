@@ -30,7 +30,7 @@ namespace Impl {
                 throw std::domain_error(Model::Exceptions::minBalanceViolation);
             }
 
-            savings.withdraw(currentBalance);
+            savings.withdraw(ammount_);
         }
 
         void visit(Model::FixedDeposit& entity) override {
@@ -87,8 +87,8 @@ namespace Impl {
     : BaseClass(depositRepo), accountRepo_(accountRepo)
     {}
 
-    Model::EntityID DepositServiceImpl::createCurrentDeposit(Model::EntityID ownerId, double initialBalance,
-                                                             double rateOfInterest,
+    Model::EntityID
+    DepositServiceImpl::createCurrentDeposit(const Model::EntityID& ownerId, double initialBalance,
                                                              double overDraftLimit) {
         using namespace Model;
         auto owner = accountRepo_.resolveEntity(ownerId);
@@ -97,11 +97,11 @@ namespace Impl {
             throw std::domain_error((boost::format(Exceptions::unknownAccount) % boost::uuids::to_string(ownerId)).str());
         }
 
-        return create<Model::CurrentDeposit>(generator_(), overDraftLimit, initialBalance, rateOfInterest, *owner);
+        return create<Model::CurrentDeposit>(generator_(), overDraftLimit, initialBalance, *owner);
     }
 
     Model::EntityID
-    DepositServiceImpl::createSavingsDeposit(Model::EntityID ownerId, double initialBalance, double minBalance,
+    DepositServiceImpl::createSavingsDeposit(const Model::EntityID& ownerId, double initialBalance, double minBalance,
                                              double rateOfInterest) {
         using namespace Model;
 
@@ -115,7 +115,7 @@ namespace Impl {
     }
 
     Model::EntityID
-    DepositServiceImpl::createFixedDeposit(Model::EntityID ownerId, double initialBalance, double rateOfInterest) {
+    DepositServiceImpl::createFixedDeposit(const Model::EntityID& ownerId, double initialBalance, double rateOfInterest) {
         using namespace Model;
 
         auto owner = accountRepo_.resolveEntity(ownerId);
@@ -126,8 +126,26 @@ namespace Impl {
         return create<Model::FixedDeposit>(generator_(), *owner, initialBalance, rateOfInterest);
     }
 
-    void DepositServiceImpl::refill(Model::EntityID depositID, double amount) {
+    boost::optional<const Model::SavingsDeposit&> DepositServiceImpl::getSavingsDeposit(const Model::EntityID& depositId) const {
+        return constCast(repository_.findSavingsDeposit(depositId));
+    }
+
+    boost::optional<const Model::CurrentDeposit&> DepositServiceImpl::getCurrentDeposit(
+            const Model::EntityID &depositId) const {
+        return constCast(repository_.findCurrentDeposit(depositId));
+    }
+
+    boost::optional<const Model::FixedDeposit&> DepositServiceImpl::getFixedDeposit(
+            const Model::EntityID &depositId) const {
+        return constCast(repository_.findFixedDeposit(depositId));
+    }
+
+    void DepositServiceImpl::refill(const Model::EntityID& depositID, double amount) {
         using namespace Model;
+
+        if(amount <= 0) {
+            throw std::domain_error(Model::Exceptions::negativeValue);
+        }
 
         auto deposit = repository_.resolveEntity(depositID);
 
@@ -135,50 +153,54 @@ namespace Impl {
             throw std::domain_error((boost::format(Exceptions::unknownDeposit) % boost::uuids::to_string(depositID)).str());
         }
 
-        if(Model::DepositCast<CurrentDeposit>().cast(*deposit)){
+        if(Model::DepositCast<FixedDeposit>().cast(*deposit)){
             throw std::domain_error(Exceptions::wrongFixedDepositOperation);
         }
 
         deposit->refill(amount);
     }
 
-    double DepositServiceImpl::getRateOfInterest(Model::EntityID depositID) const {
-        auto deposit = repository_.resolveEntity(depositID);
+    double DepositServiceImpl::getRateOfInterest(const Model::EntityID& depositId) const {
+        auto deposit = repository_.resolveEntity(depositId);
 
         if(!deposit) {
-            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositID)).str());
+            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositId)).str());
         }
 
         return deposit->getRateOfInterest();
     }
 
-    double DepositServiceImpl::getBalance(Model::EntityID depositID) const {
-        auto deposit = repository_.resolveEntity(depositID);
+    double DepositServiceImpl::getBalance(const Model::EntityID& depositId) const {
+        auto deposit = repository_.resolveEntity(depositId);
 
         if(!deposit) {
-            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositID)).str());
+            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositId)).str());
         }
 
         return deposit->getBalance();
     }
 
-    void DepositServiceImpl::withdraw(Model::EntityID depositID, double amount) {
-        auto deposit = repository_.resolveEntity(depositID);
+    void DepositServiceImpl::withdraw(const Model::EntityID& depositId, double amount) {
+        if(amount <= 0) {
+            throw std::domain_error(Model::Exceptions::negativeValue);
+        }
+
+        auto deposit = repository_.resolveEntity(depositId);
 
         if(!deposit) {
-            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositID)).str());
+            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositId)).str());
         }
 
         Withdrawer::withdraw(*deposit, amount);
     }
 
-    void DepositServiceImpl::setOverdraftLimit(Model::EntityID depositID, double overdraftLimit) {
+    void DepositServiceImpl::setOverdraftLimit(const Model::EntityID& depositId, double overdraftLimit) {
         using namespace Model;
 
-        auto deposit = repository_.resolveEntity(depositID);
+        auto deposit = repository_.resolveEntity(depositId);
 
         if(!deposit) {
-            throw std::domain_error((boost::format(Exceptions::unknownDeposit) % boost::uuids::to_string(depositID)).str());
+            throw std::domain_error((boost::format(Exceptions::unknownDeposit) % boost::uuids::to_string(depositId)).str());
         }
 
         auto currentDeposit = Model::DepositCast<CurrentDeposit>().cast(*deposit);
@@ -190,27 +212,31 @@ namespace Impl {
         currentDeposit->setOverdraftLimit(overdraftLimit);
     }
 
-    double DepositServiceImpl::closeDeposit(Model::EntityID depositID) {
-        auto deposit = repository_.resolveEntity(depositID);
+    double DepositServiceImpl::closeDeposit(const Model::EntityID& depositId) {
+        auto deposit = repository_.resolveEntity(depositId);
 
         if(!deposit) {
-            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositID)).str());
+            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositId)).str());
         }
 
         double balance = deposit->getBalance();
-        repository_.remove(depositID);
+        repository_.remove(depositId);
 
         return balance;
     }
 
-    void DepositServiceImpl::onBankPeriodPassed(Model::EntityID depositID) {
-        auto deposit = repository_.resolveEntity(depositID);
+    void DepositServiceImpl::onBankPeriodPassed(const Model::EntityID& depositId) {
+        auto deposit = repository_.resolveEntity(depositId);
 
         if(!deposit) {
-            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositID)).str());
+            throw std::domain_error((boost::format(Model::Exceptions::unknownDeposit) % boost::uuids::to_string(depositId)).str());
         }
 
         YearProcessor::process(*deposit);
+    }
+
+    int DepositServiceImpl::getDepositsAmount() const {
+        return repository_.getSize();
     }
 }
 }

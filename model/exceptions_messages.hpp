@@ -7,7 +7,7 @@ namespace Exceptions {
 
     const char * const unknownDeposit = "Deposit with id %1% does not exist";
 
-    const char * const negativeValue = "%1% value should be positive";
+    const char * const negativeValue = "Value should be positive";
 
     const char * const ovedraftOverflow = "Cannot withdraw because of an overdraft limit";
 

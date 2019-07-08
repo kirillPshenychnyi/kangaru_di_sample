@@ -26,6 +26,12 @@ namespace Impl {
             }
 
         protected:
+            template <typename Entity>
+            boost::optional<const Entity&> constCast(boost::optional<Entity&> entity) const {
+                return entity ? boost::optional<const Entity&>(*entity) : boost::optional<const Entity&>();
+            }
+
+        protected:
             Repository& repository_;
             boost::uuids::random_generator generator_;
     };
