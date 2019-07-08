@@ -3,6 +3,6 @@ language: cpp
 compiler:
   - clang
 
-script:
+after_script:
   - cd cmake-build-debug/
   - ./kangaru_di_sample
