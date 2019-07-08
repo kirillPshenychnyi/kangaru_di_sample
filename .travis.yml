@@ -1,7 +1,16 @@
 language: cpp
 
-compiler:
-  - clang
+matrix:
+  include:
+  - os: linux
+    compiler: clang
+    addons:
+      apt:
+        packages: ['clang-3.8', 'libstdc++-6-dev']
+        sources:
+          - ubuntu-toolchain-r-test
+          - llvm-toolchain-trusty
+    env: COMPILER='clang++-3.8' CPP14=1
 
 before_script:
   - sudo apt-get update -qq
