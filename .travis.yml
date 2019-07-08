@@ -3,6 +3,12 @@ language: cpp
 compiler:
   - clang
 
+script:
+  - mkdir release
+  - cd release
+  - cmake -DCMAKE_BUILD_TYPE=Release ..
+  - make
+
 after_script:
-  - cd cmake-build-debug/
+  - cd release
   - ./kangaru_di_sample
