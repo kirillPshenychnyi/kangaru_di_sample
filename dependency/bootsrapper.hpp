@@ -5,20 +5,42 @@
 
 #include <kangaru/include/kangaru/kangaru.hpp>
 
+namespace Service {
+    struct AccountService;
+    struct DepositService;
+}
+
+namespace Repository {
+    struct AccountRepository;
+    struct DepositRepository;
+}
+
 namespace Dependency {
 
-    class Bootstpapper : public boost::noncopyable {
+    struct AccountRepositoryService : kgr::abstract_service<Repository::AccountRepository> {};
+    struct DepositRepositoryService : kgr::abstract_service<Repository::DepositRepository> {};
+
+    struct AccountServiceService : kgr::abstract_service<Service::AccountService> {};
+    struct DepositServiceService : kgr::abstract_service<Service::DepositService> {};
+
+    class Bootstrapper : public boost::noncopyable {
         public:
-            static Bootstpapper& getInstance();
+            virtual ~Bootstrapper() = default;
+
+            Service::DepositService& getDepositService() {
+                return container_.service<DepositServiceService>();
+            }
+
+            Service::AccountService& getAccountService() {
+                return container_.service<AccountServiceService>();
+            }
 
         private:
-            explicit Bootstpapper();
+            virtual void initRepos() = 0;
 
-            virtual void initRepos();
+            virtual void initServices() = 0;
 
-            virtual void initServices();
-
-        private:
+        protected:
             kgr::container container_;
     };
 }

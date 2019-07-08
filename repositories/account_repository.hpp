@@ -11,6 +11,8 @@ namespace Model {
 namespace Repository {
     struct AccountRepository : public BaseRepository<Model::Account> {
         virtual boost::optional<Model::Employee&> findEmployee(Model::EntityID id) = 0;
+
+        virtual boost::optional<const Model::Employee&> getEmployee(Model::EntityID id) = 0;
     };
 }
 

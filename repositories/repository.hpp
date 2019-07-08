@@ -14,9 +14,11 @@ namespace Repository {
 
         virtual boost::optional<T&> resolveEntity(Model::EntityID id) = 0;
 
+        virtual boost::optional<const T&> resolveEntity(Model::EntityID id) const = 0;
+
         virtual int getSize() const = 0;
 
-        virtual void insert(std::unique_ptr<T> entity) = 0;
+        virtual Model::EntityID insert(std::unique_ptr<T> entity) = 0;
 
         virtual void remove(Model::EntityID id) = 0;
     };

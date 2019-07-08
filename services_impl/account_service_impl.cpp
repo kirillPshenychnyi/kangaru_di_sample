@@ -2,6 +2,7 @@
 
 #include "model/employee.hpp"
 #include "model/exceptions_messages.hpp"
+
 #include "repositories/account_repository.hpp"
 
 #include <boost/format.hpp>
@@ -19,11 +20,11 @@ namespace Impl {
     }
 
     void AccountServiceImpl::changeEmail(Model::EntityID entityId, std::string newEmail) {
-        auto entity = repository_.resolveEntity(entityId);
-
         if(newEmail.empty()){
             throw std::domain_error(Model::Exceptions::wrongStringParamValue);
         }
+
+        auto entity = repository_.resolveEntity(entityId);
 
         if(!entity){
             throw std::domain_error((boost::format(Model::Exceptions::unknownAccount) % boost::uuids::to_string(entityId)).str());
@@ -55,6 +56,18 @@ namespace Impl {
         }
 
         employee->promote(newAccessLevel);
+    }
+
+    boost::optional<const Model::Account&> AccountServiceImpl::getAccount(Model::EntityID entityId) const {
+        return static_cast<const Repository::AccountRepository&>(repository_).resolveEntity(entityId);
+    }
+
+    boost::optional<const Model::Employee&> AccountServiceImpl::getEmployee(Model::EntityID entityId) const {
+        return repository_.getEmployee(entityId);
+    }
+
+    int AccountServiceImpl::getAccountsSize() const {
+        return repository_.getSize();
     }
 
     void AccountServiceImpl::deleteAccount(Model::EntityID entityId) {

@@ -4,6 +4,7 @@ project(kangaru_di_sample)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(${kangaru_di_sample_SOURCE_DIR})
+include_directories(Catch2/single_include/)
 
 add_subdirectory(kangaru)
 
@@ -28,4 +29,7 @@ add_executable(
         local_repositories_impl/deposit_repository_impl.hpp
         model/visitors/deposit_visitor.hpp
         services_impl/deposit_service_impl.hpp
-        services_impl/deposit_service_impl.cpp model/exceptions_messages.hpp dependency/bootsrapper.hpp dependency/bootsrapper.cpp)
+        services_impl/deposit_service_impl.cpp model/exceptions_messages.hpp
+        dependency/bootsrapper.hpp
+        tests/account_repo_test.cpp tests/test_container_bootstrapper.cpp
+        tests/test_container_bootstrapper.hpp tests/exception_matcher.hpp)

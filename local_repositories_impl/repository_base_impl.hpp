@@ -23,13 +23,19 @@ namespace LocalRepo {
                 return entity == enteties.end() ? boost::optional<TEntity&>() : *entity->second;
             }
 
+            boost::optional<const TEntity&> resolveEntity(Model::EntityID id) const final {
+                auto entity = enteties.find(id);
+                return entity == enteties.end() ? boost::optional<const TEntity&>() : *entity->second;
+            }
+
             int getSize() const final {
                 return enteties.size();
             }
 
-            void insert(EntityPtr entity) final {
+            Model::EntityID insert(EntityPtr entity) final {
                 Model::EntityID id = entity->getID();
                 enteties.emplace(id, std::move(entity));
+                return id;
             }
 
             void remove(Model::EntityID id) final {

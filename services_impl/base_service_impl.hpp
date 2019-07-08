@@ -22,7 +22,7 @@ namespace Impl {
 
             template <typename Entity, typename ... Args>
             Model::EntityID create(Args&&... args) {
-                repository_.insert(std::make_unique<Entity>(std::forward<Args>(args)...));
+                return repository_.insert(std::make_unique<Entity>(std::forward<Args>(args)...));
             }
 
         protected:

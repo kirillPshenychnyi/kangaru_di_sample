@@ -1,8 +1,2 @@
-#include <iostream>
-
-#include <kangaru/include/kangaru/kangaru.hpp>
-
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>

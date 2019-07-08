@@ -15,6 +15,11 @@ namespace LocalRepo {
             boost::optional<Model::Employee&> findEmployee(Model::EntityID id) final {
                 return resolveSpecificEntity<Model::Employee, Model::AccountCast>(id);
             }
+
+            boost::optional<const Model::Employee&> getEmployee(Model::EntityID id) final {
+                auto resolved = resolveSpecificEntity<Model::Employee, Model::AccountCast>(id);
+                return resolved ? boost::optional<const Model::Employee&>(*resolved) : boost::optional<const Model::Employee&>();
+            }
     };
 }
 }

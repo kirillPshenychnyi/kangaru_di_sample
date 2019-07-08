@@ -8,7 +8,7 @@ namespace Model {
     class Entity : public boost::noncopyable {
         public:
             virtual ~Entity() noexcept = default;
-            EntityID getID() const { return entity_id_; }
+            const EntityID& getID() const { return entity_id_; }
 
         protected:
             explicit Entity(EntityID entity_id) : entity_id_(entity_id) {}
