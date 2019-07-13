@@ -9,9 +9,9 @@ namespace Test {
         public:
             TestContainerBootstrapper();
         private:
-            void initRepos() final;
+            void initRepos();
 
-            void initServices() final;
+            void initServices();
     };
 }
 

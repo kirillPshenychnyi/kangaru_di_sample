@@ -27,18 +27,13 @@ namespace Dependency {
         public:
             virtual ~Bootstrapper() = default;
 
-            Service::DepositService& getDepositService() {
+            virtual Service::DepositService& getDepositService() {
                 return container_.service<DepositServiceService>();
             }
 
-            Service::AccountService& getAccountService() {
+            virtual Service::AccountService& getAccountService() {
                 return container_.service<AccountServiceService>();
             }
-
-        private:
-            virtual void initRepos() = 0;
-
-            virtual void initServices() = 0;
 
         protected:
             kgr::container container_;
