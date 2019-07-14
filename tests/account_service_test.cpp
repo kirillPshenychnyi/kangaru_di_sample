@@ -1,4 +1,4 @@
-#include <Catch2/include/catch.hpp>
+#include <third_party/catch.hpp>
 
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
