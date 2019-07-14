@@ -21,6 +21,8 @@ namespace Repository {
         virtual const Model::EntityID& insert(std::unique_ptr<T> entity) = 0;
 
         virtual void remove(Model::EntityID id) = 0;
+
+        virtual void clear() = 0;
     };
 }
 

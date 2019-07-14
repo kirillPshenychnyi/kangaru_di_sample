@@ -14,12 +14,12 @@
 namespace Test {
 
 TEST_CASE("accounts_are_empty", "[accounts]") {
-    TestContainerBootstrapper bootstrapper;
+    TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
     REQUIRE(bootstrapper.getAccountService().getAccountsSize() == 0);
 }
 
 TEST_CASE("create_accounts", "[accounts]") {
-    TestContainerBootstrapper bootstrapper;
+    TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
 
     Service::AccountService& accountService = bootstrapper.getAccountService();
 
@@ -49,7 +49,7 @@ TEST_CASE("create_accounts", "[accounts]") {
 }
 
 TEST_CASE("change_params", "[accounts]") {
-    TestContainerBootstrapper bootstrapper;
+    TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
 
     Service::AccountService& accountService = bootstrapper.getAccountService();
 
@@ -79,7 +79,7 @@ TEST_CASE("change_params", "[accounts]") {
 TEST_CASE("create_exceptions", "[accounts]") {
     using namespace Model;
 
-    TestContainerBootstrapper bootstrapper;
+    TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
     Service::AccountService& accountService = bootstrapper.getAccountService();
 
     SECTION("empty_name") {
@@ -98,7 +98,7 @@ TEST_CASE("create_exceptions", "[accounts]") {
 TEST_CASE("update_params_exceptions", "[accounts]") {
     using namespace Model;
 
-    TestContainerBootstrapper bootstrapper;
+    TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
 
     Service::AccountService& accountService = bootstrapper.getAccountService();
 
@@ -121,7 +121,7 @@ TEST_CASE("update_params_exceptions", "[accounts]") {
 TEST_CASE("unknown_entity_exceptions", "[accounts]") {
     using namespace Model;
 
-    TestContainerBootstrapper bootstrapper;
+    TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
 
     Service::AccountService& accountService = bootstrapper.getAccountService();
 

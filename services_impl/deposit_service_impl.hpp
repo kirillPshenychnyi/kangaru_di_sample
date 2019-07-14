@@ -49,7 +49,7 @@ namespace Impl {
             void onBankPeriodPassed(const Model::EntityID& depositId) final;
 
             int getDepositsAmount() const final;
-
+            
         private:
             Repository::AccountRepository& accountRepo_;
     };

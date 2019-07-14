@@ -1,36 +1,47 @@
 #include "test_container_bootstrapper.hpp"
 
-#include "local_repositories_impl/account_repository_impl.hpp"
 #include "local_repositories_impl/deposit_repository_impl.hpp"
+#include "local_repositories_impl/account_repository_impl.hpp"
+
+#include "third_party/boost_di.hpp"
 
 #include "services_impl/account_service_impl.hpp"
 #include "services_impl/deposit_service_impl.hpp"
 
-namespace DP = Dependency;
-
-struct LocalAccountRepositoryService : kgr::single_service<Repository::LocalRepo::AccountRepositoryImpl>, kgr::overrides<DP::AccountRepositoryService> {};
-
-struct LocalDepositRepositoryService : kgr::single_service<Repository::LocalRepo::DepositRepositoryImpl>, kgr::overrides<DP::DepositRepositoryService> {};
-
-struct LocalAccountServiceService : kgr::single_service<Service::Impl::AccountServiceImpl, kgr::dependency<DP::AccountRepositoryService>>, kgr::overrides<DP::AccountServiceService> {};
-
-struct LocalDepositServiceService :
-        kgr::single_service<Service::Impl::DepositServiceImpl, kgr::dependency<DP::DepositRepositoryService, DP::AccountRepositoryService>>, kgr::overrides<DP::DepositServiceService> {};
+#include "repositories/deposit_repository.hpp"
+#include "repositories/account_repository.hpp"
 
 namespace Test {
-    TestContainerBootstrapper::TestContainerBootstrapper() {
-        // order matters
-        initRepos();
-        initServices();
+    TestContainerBootstrapper::TestContainerBootstrapper(
+            Service::AccountService& accountService,
+            Service::DepositService& depositService,
+            Repository::DepositRepository& depositRepository,
+            Repository::AccountRepository& accountRepository) :
+                accountService_(accountService), depositService_(depositService),
+                depositRepository_(depositRepository), accountRepository_(accountRepository) {
     }
 
-    void TestContainerBootstrapper::initRepos() {
-        container_.emplace<LocalAccountRepositoryService>();
-        container_.emplace<LocalDepositRepositoryService>();
+    TestContainerBootstrapper::~TestContainerBootstrapper() {
+        accountRepository_.clear();
+        depositRepository_.clear();
     }
 
-    void TestContainerBootstrapper::initServices() {
-        container_.emplace<LocalAccountServiceService>();
-        container_.emplace<LocalDepositServiceService>();
+    TestContainerBootstrapper TestContainerBootstrapper::newInstance() {
+        using namespace boost;
+        auto injector = di::make_injector(
+                di::bind<Repository::AccountRepository>.to<Repository::LocalRepo::AccountRepositoryImpl>(),
+                di::bind<Repository::DepositRepository>.to<Repository::LocalRepo::DepositRepositoryImpl>(),
+                di::bind<Service::AccountService>.to<Service::Impl::AccountServiceImpl>(),
+                di::bind<Service::DepositService>.to<Service::Impl::DepositServiceImpl>());
+
+        return injector.create<TestContainerBootstrapper>();
+    }
+
+    Service::DepositService &TestContainerBootstrapper::getDepositService() {
+        return depositService_;
+    }
+
+    Service::AccountService &TestContainerBootstrapper::getAccountService() {
+        return accountService_;
     }
 }

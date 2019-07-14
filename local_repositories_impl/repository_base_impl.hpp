@@ -41,6 +41,10 @@ namespace LocalRepo {
                 enteties.erase(id);
             }
 
+            void clear() {
+                enteties.clear();
+            }
+
         protected:
             template <typename Target, template<typename> class CastVisitor>
             boost::optional<Target&> resolveSpecificEntity(Model::EntityID id) {
