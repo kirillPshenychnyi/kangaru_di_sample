@@ -4,14 +4,13 @@ project(kangaru_di_sample)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(${kangaru_di_sample_SOURCE_DIR})
+include_directories(third_party/)
 
-add_subdirectory(Catch2)
-add_subdirectory(kangaru)
 
 add_executable(
         kangaru_di_sample
         main.cpp
-        Catch2/include/catch.hpp
+        third_party/catch.hpp
         model/account.hpp model/employee.hpp
         model/entity.hpp model/deposit.hpp
         services/account_service.hpp model/typedefs.hpp
@@ -33,6 +32,3 @@ add_executable(
         dependency/bootsrapper.hpp
         tests/account_service_test.cpp tests/test_container_bootstrapper.cpp
         tests/test_container_bootstrapper.hpp tests/deposit_service_test.cpp)
-
-target_link_libraries(kangaru_di_sample Catch2::Catch2)
-target_link_libraries(kangaru_di_sample kangaru)

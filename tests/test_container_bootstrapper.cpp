@@ -24,6 +24,10 @@ namespace Test {
         initServices();
     }
 
+    TestContainerBootstrapper TestContainerBootstrapper::newInstance() {
+        return {};
+    }
+
     void TestContainerBootstrapper::initRepos() {
         container_.emplace<LocalAccountRepositoryService>();
         container_.emplace<LocalDepositRepositoryService>();

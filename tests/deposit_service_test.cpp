@@ -1,4 +1,4 @@
-#include <Catch2/include/catch.hpp>
+#include <third_party/catch.hpp>
 
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -19,12 +19,12 @@
 namespace Test {
 
 TEST_CASE("no_deposits", "[deposits]") {
-    TestContainerBootstrapper bootstrapper;
+    TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
     REQUIRE(bootstrapper.getDepositService().getDepositsAmount() == 0);
 }
 
 TEST_CASE("deposits_creation", "[deposits]") {
-    TestContainerBootstrapper bootstrapper;
+    TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
     Service::DepositService& depositService = bootstrapper.getDepositService();
     Service::AccountService& accountService = bootstrapper.getAccountService();
 
@@ -64,7 +64,7 @@ TEST_CASE("deposits_creation", "[deposits]") {
 }
 
 TEST_CASE("deposits_withdraw", "[deposits]") {
-    TestContainerBootstrapper bootstrapper;
+    TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
     Service::DepositService& depositService = bootstrapper.getDepositService();
     Service::AccountService& accountService = bootstrapper.getAccountService();
 
@@ -89,7 +89,7 @@ TEST_CASE("deposits_withdraw", "[deposits]") {
 }
 
 TEST_CASE("deposits_refill", "[deposits]") {
-    TestContainerBootstrapper bootstrapper;
+    TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
     Service::DepositService& depositService = bootstrapper.getDepositService();
     Service::AccountService& accountService = bootstrapper.getAccountService();
 

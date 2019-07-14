@@ -8,6 +8,9 @@ namespace Test {
     class TestContainerBootstrapper : public Dependency::Bootstrapper {
         public:
             TestContainerBootstrapper();
+
+            static TestContainerBootstrapper newInstance();
+
         private:
             void initRepos();
 

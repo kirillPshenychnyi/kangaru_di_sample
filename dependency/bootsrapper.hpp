@@ -1,9 +1,7 @@
 #ifndef KANGARU_DI_SAMPLE_BOOTSRAPPER_HPP
 #define KANGARU_DI_SAMPLE_BOOTSRAPPER_HPP
 
-#include <boost/noncopyable.hpp>
-
-#include <kangaru/include/kangaru/kangaru.hpp>
+#include "third_party/kangaru/kangaru.hpp"
 
 namespace Service {
     struct AccountService;
@@ -23,9 +21,13 @@ namespace Dependency {
     struct AccountServiceService : kgr::abstract_service<Service::AccountService> {};
     struct DepositServiceService : kgr::abstract_service<Service::DepositService> {};
 
-    class Bootstrapper : public boost::noncopyable {
+    class Bootstrapper {
         public:
+            Bootstrapper() = default;
             virtual ~Bootstrapper() = default;
+
+            Bootstrapper(Bootstrapper&& other) noexcept = default;
+            Bootstrapper& operator=(Bootstrapper&& other) noexcept = default;
 
             virtual Service::DepositService& getDepositService() {
                 return container_.service<DepositServiceService>();
