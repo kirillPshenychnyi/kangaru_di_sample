@@ -8,14 +8,21 @@
 
 namespace DP = Dependency;
 
-struct LocalAccountRepositoryService : kgr::single_service<Repository::LocalRepo::AccountRepositoryImpl>, kgr::overrides<DP::AccountRepositoryService> {};
+struct LocalAccountRepositoryService :
+        kgr::single_service<Repository::LocalRepo::AccountRepositoryImpl>,
+        kgr::overrides<DP::AccountRepositoryService> {};
 
-struct LocalDepositRepositoryService : kgr::single_service<Repository::LocalRepo::DepositRepositoryImpl>, kgr::overrides<DP::DepositRepositoryService> {};
+struct LocalDepositRepositoryService :
+        kgr::single_service<Repository::LocalRepo::DepositRepositoryImpl>,
+        kgr::overrides<DP::DepositRepositoryService> {};
 
-struct LocalAccountServiceService : kgr::single_service<Service::Impl::AccountServiceImpl, kgr::dependency<DP::AccountRepositoryService>>, kgr::overrides<DP::AccountServiceService> {};
+struct LocalAccountServiceService :
+        kgr::single_service<Service::Impl::AccountServiceImpl, kgr::dependency<DP::AccountRepositoryService>>,
+        kgr::overrides<DP::AccountServiceService> {};
 
 struct LocalDepositServiceService :
-        kgr::single_service<Service::Impl::DepositServiceImpl, kgr::dependency<DP::DepositRepositoryService, DP::AccountRepositoryService>>, kgr::overrides<DP::DepositServiceService> {};
+        kgr::single_service<Service::Impl::DepositServiceImpl, kgr::dependency<DP::DepositRepositoryService, DP::AccountRepositoryService>>,
+        kgr::overrides<DP::DepositServiceService> {};
 
 namespace Test {
     TestContainerBootstrapper::TestContainerBootstrapper() {

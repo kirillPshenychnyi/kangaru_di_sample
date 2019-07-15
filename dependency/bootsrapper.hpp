@@ -3,9 +3,16 @@
 
 #include "third_party/kangaru/kangaru.hpp"
 
+namespace Dependency {
+    struct AccountServiceService;
+    struct DepositServiceService;
+}
+
 namespace Service {
     struct AccountService;
     struct DepositService;
+    auto service_map(Service::AccountService&) -> Dependency::AccountServiceService;
+    auto service_map(Service::DepositService&) -> Dependency::DepositServiceService;
 }
 
 namespace Repository {
@@ -35,6 +42,11 @@ namespace Dependency {
 
             virtual Service::AccountService& getAccountService() {
                 return container_.service<AccountServiceService>();
+            }
+
+            template <typename Callable>
+            void invoke(Callable callback) {
+                container_.invoke(callback);
             }
 
         protected:
