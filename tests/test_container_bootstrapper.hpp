@@ -10,8 +10,8 @@ namespace Test {
             TestContainerBootstrapper(
                     Service::AccountService& accountService,
                     Service::DepositService& depositService,
-                    Repository::DepositRepository& depositRepository_,
-                    Repository::AccountRepository& accountRepository_);
+                    Repository::DepositRepository& depositRepository,
+                    Repository::AccountRepository& accountRepository);
 
             ~TestContainerBootstrapper() final;
 
