@@ -16,12 +16,17 @@ struct LocalDepositRepositoryService :
         kgr::single_service<Repository::LocalRepo::DepositRepositoryImpl>,
         kgr::overrides<DP::DepositRepositoryService> {};
 
+namespace Repository {
+    auto service_map(DepositRepository&) -> LocalDepositRepositoryService;
+    auto service_map(AccountRepository&) -> LocalAccountRepositoryService;
+}
+
 struct LocalAccountServiceService :
-        kgr::single_service<Service::Impl::AccountServiceImpl, kgr::dependency<DP::AccountRepositoryService>>,
+        kgr::single_service<Service::Impl::AccountServiceImpl, kgr::autowire>,
         kgr::overrides<DP::AccountServiceService> {};
 
 struct LocalDepositServiceService :
-        kgr::single_service<Service::Impl::DepositServiceImpl, kgr::dependency<DP::DepositRepositoryService, DP::AccountRepositoryService>>,
+        kgr::single_service<Service::Impl::DepositServiceImpl, kgr::autowire>,
         kgr::overrides<DP::DepositServiceService> {};
 
 namespace Test {
