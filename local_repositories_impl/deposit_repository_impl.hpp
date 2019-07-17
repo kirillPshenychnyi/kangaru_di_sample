@@ -4,7 +4,9 @@
 #include "repository_base_impl.hpp"
 #include "repositories/deposit_repository.hpp"
 
-#include "model/deposit.hpp"
+#include "model/fixed_deposit.hpp"
+#include "model/current_deposit.hpp"
+#include "model/savings_deposit.hpp"
 #include "model/visitors/deposit_visitor.hpp"
 
 namespace Repository {
