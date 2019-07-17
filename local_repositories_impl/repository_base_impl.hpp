@@ -19,30 +19,30 @@ namespace LocalRepo {
             virtual ~BaseRepositoryImpl() = default;
 
             boost::optional<TEntity&> resolveEntity(Model::EntityID id) final {
-                auto entity = enteties.find(id);
-                return entity == enteties.end() ? boost::optional<TEntity&>() : *entity->second;
+                auto entity = entities_.find(id);
+                return entity == entities_.end() ? boost::optional<TEntity&>() : *entity->second;
             }
 
             boost::optional<const TEntity&> resolveEntity(Model::EntityID id) const final {
-                auto entity = enteties.find(id);
-                return entity == enteties.end() ? boost::optional<const TEntity&>() : *entity->second;
+                auto entity = entities_.find(id);
+                return entity == entities_.end() ? boost::optional<const TEntity&>() : *entity->second;
             }
 
             int getSize() const final {
-                return enteties.size();
+                return entities_.size();
             }
 
             const Model::EntityID& insert(EntityPtr entity) final {
                 Model::EntityID id = entity->getID();
-                return enteties.emplace(id, std::move(entity)).first->second->getID();
+                return entities_.emplace(id, std::move(entity)).first->second->getID();
             }
 
             void remove(Model::EntityID id) final {
-                enteties.erase(id);
+                entities_.erase(id);
             }
 
             void clear() {
-                enteties.clear();
+                entities_.clear();
             }
 
         protected:
@@ -57,7 +57,7 @@ namespace LocalRepo {
             }
 
         private:
-            EntitySet enteties;
+            EntitySet entities_;
     };
 }
 }
