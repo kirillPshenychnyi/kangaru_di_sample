@@ -25,6 +25,6 @@ Repositories represent CRUD operations and query operations for obtaining specif
 ### Dependency Injection 
 The main purpose of this project is to demonstrate dependency injection mechanism. `Bootstrapper` interface is an API which encapsulates concrete DI implementation. User should use this interface object for services access. `TestContainerBootstrapper` is the implementation which should be used for test purposes. 
 There two branches in this repo:
-- master - contains DI implementation using [kangaru framework](https://github.com/gracicot/kangaru)
-- di_dependency - contains DI implementation using [[BOOST].DI](https://boost-experimental.github.io/di/)
+- [master](https://github.com/kirillPshenychnyi/kangaru_di_sample/tree/master) - contains DI implementation using [kangaru framework](https://github.com/gracicot/kangaru)
+- [di_dependency](https://github.com/kirillPshenychnyi/kangaru_di_sample/tree/di_dependency) - contains DI implementation using [[BOOST].DI](https://boost-experimental.github.io/di/)
  
