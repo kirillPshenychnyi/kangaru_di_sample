@@ -15,7 +15,7 @@ namespace Test {
 
 TEST_CASE("accounts_are_empty", "[accounts]") {
     TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
-    REQUIRE(bootstrapper.getAccountService().getAccountsSize() == 0);
+    REQUIRE(bootstrapper.getAccountService().getAccountsAmount() == 0);
 }
 
 TEST_CASE("create_accounts", "[accounts]") {
@@ -25,7 +25,7 @@ TEST_CASE("create_accounts", "[accounts]") {
 
     SECTION("simple_account") {
         Model::EntityID id = accountService.createAccount("John Dow", "dow@gmail.com", "37aAsddkg9822");
-        REQUIRE(bootstrapper.getAccountService().getAccountsSize() == 1);
+        REQUIRE(bootstrapper.getAccountService().getAccountsAmount() == 1);
 
         auto account = accountService.getAccount(id);
 
@@ -54,7 +54,7 @@ TEST_CASE("change_params", "[accounts]") {
     Service::AccountService& accountService = bootstrapper.getAccountService();
 
     Model::EntityID id = accountService.createEmployeeAccount("John Dow", "dow@gmail.com", "37aAsddkg9822", Model::Position::Operator);
-    REQUIRE(bootstrapper.getAccountService().getAccountsSize() == 1);
+    REQUIRE(bootstrapper.getAccountService().getAccountsAmount() == 1);
 
     auto account = accountService.getEmployee(id);
 
@@ -103,7 +103,7 @@ TEST_CASE("update_params_exceptions", "[accounts]") {
     Service::AccountService& accountService = bootstrapper.getAccountService();
 
     Model::EntityID id = accountService.createEmployeeAccount("John Dow", "dow@gmail.com", "37aAsddkg9822", Model::Position::Operator);
-    REQUIRE(bootstrapper.getAccountService().getAccountsSize() == 1);
+    REQUIRE(bootstrapper.getAccountService().getAccountsAmount() == 1);
 
     auto account = accountService.getEmployee(id);
 
@@ -126,7 +126,7 @@ TEST_CASE("unknown_entity_exceptions", "[accounts]") {
     Service::AccountService& accountService = bootstrapper.getAccountService();
 
     Model::EntityID id = accountService.createEmployeeAccount("John Dow", "dow@gmail.com", "37aAsddkg9822", Model::Position::Operator);
-    REQUIRE(bootstrapper.getAccountService().getAccountsSize() == 1);
+    REQUIRE(bootstrapper.getAccountService().getAccountsAmount() == 1);
 
     Model::EntityID fakeId = boost::uuids::random_generator()();
 

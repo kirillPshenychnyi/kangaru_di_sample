@@ -26,7 +26,6 @@ namespace LocalRepo {
                 return resolveSpecificEntity<Model::CurrentDeposit, Model::DepositCast>(id);
             }
     };
-
 }
 }
 

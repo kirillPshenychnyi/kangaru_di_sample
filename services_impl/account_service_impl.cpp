@@ -66,7 +66,7 @@ namespace Impl {
         return repository_.getEmployee(entityId);
     }
 
-    int AccountServiceImpl::getAccountsSize() const {
+    int AccountServiceImpl::getAccountsAmount() const {
         return repository_.getSize();
     }
 
