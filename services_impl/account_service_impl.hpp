@@ -33,7 +33,7 @@ namespace Impl {
 
             void promote(const Model::EntityID& entityId, Model::Position newAccessLevel) final;
 
-            int getAccountsSize() const final;
+            int getAccountsAmount() const final;
 
             void deleteAccount(const Model::EntityID& entityId) final;
     };

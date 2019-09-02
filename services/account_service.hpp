@@ -33,7 +33,7 @@ namespace Service {
 
         virtual void deleteAccount(const Model::EntityID& entityId) = 0;
 
-        virtual int getAccountsSize() const = 0;
+        virtual int getAccountsAmount() const = 0;
     };
 }
 
