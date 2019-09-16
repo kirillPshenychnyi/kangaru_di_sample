@@ -18,18 +18,18 @@ namespace Impl {
         public:
             using BaseClass::BaseServiceImpl;
 
-            const Model::EntityID& createAccount(std::string name, std::string email, std::string passwordHash) final;
+            const Model::EntityID& createAccount(const std::string& name, const std::string& email, const std::string& passwordHash) final;
 
             const Model::EntityID& createEmployeeAccount(
-                    std::string name, std::string email, std::string passwordHash, Model::Position accessLevel) final;
+                    const std::string& name, const std::string& email, const std::string& passwordHash, Model::Position accessLevel) final;
 
             boost::optional<const Model::Account&> getAccount(const Model::EntityID& entityId) const final;
 
             boost::optional<const Model::Employee&> getEmployee(const Model::EntityID& entityId) const final;
 
-            void changeEmail(const Model::EntityID& entityId, std::string newEmail) final;
+            void changeEmail(const Model::EntityID& entityId, const std::string& newEmail) final;
 
-            void changePassword(const Model::EntityID& entityId, std::string newPassword) final;
+            void changePassword(const Model::EntityID& entityId, const std::string& newPassword) final;
 
             void promote(const Model::EntityID& entityId, Model::Position newAccessLevel) final;
 

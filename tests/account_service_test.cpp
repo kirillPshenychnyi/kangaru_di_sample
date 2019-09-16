@@ -26,36 +26,48 @@ namespace Test {
         Service::AccountService& accountService = bootstrapper.getAccountService();
 
         SECTION("simple_account") {
-            Model::EntityID id = accountService.createAccount("John Dow", "dow@gmail.com", "37aAsddkg9822");
+            const std::string name {"John Dow"};
+            const std::string email {"dow@gmail.com"};
+            const std::string password {"37aAsddkg9822"};
+
+            Model::EntityID id = accountService.createAccount(name, email, password);
             REQUIRE(bootstrapper.getAccountService().getAccountsAmount() == 1);
 
             auto account = accountService.getAccount(id);
 
             REQUIRE(account.is_initialized());
-            REQUIRE(account->getName() == "John Dow");
-            REQUIRE(account->getEmail() == "dow@gmail.com");
-            REQUIRE(account->getPasswordHash() == "37aAsddkg9822");
+            REQUIRE(account->getName() == name);
+            REQUIRE(account->getEmail() == email);
+            REQUIRE(account->getPasswordHash() == password);
         }
 
         SECTION("employee_account") {
-            Model::EntityID id = accountService.createEmployeeAccount("Sam Rio", "rio@gmail.com", "37aAsddkg9822", Model::Position::Operator);
+            const std::string name {"Sam Rio"};
+            const std::string email {"rio@gmail.com"};
+            const std::string password {"37aAsddkg9822"};
+
+            Model::EntityID id = accountService.createEmployeeAccount(name, email, password, Model::Position::Operator);
 
             auto account = accountService.getEmployee(id);
 
             REQUIRE(account.is_initialized());
-            REQUIRE(account->getName() == "Sam Rio");
-            REQUIRE(account->getEmail() == "rio@gmail.com");
-            REQUIRE(account->getPasswordHash() == "37aAsddkg9822");
+            REQUIRE(account->getName() == name);
+            REQUIRE(account->getEmail() == email);
+            REQUIRE(account->getPasswordHash() == password);
             REQUIRE(account->getPosition() == Model::Position::Operator);
         }
     }
 
     TEST_CASE("change_params", "[accounts]") {
+        const std::string name {"John Dow"};
+        const std::string email {"dow@gmail.com"};
+        const std::string password {"37aAsddkg9822"};
+
         TestContainerBootstrapper bootstrapper{TestContainerBootstrapper::newInstance()};
 
         Service::AccountService& accountService = bootstrapper.getAccountService();
 
-        Model::EntityID id = accountService.createEmployeeAccount("John Dow", "dow@gmail.com", "37aAsddkg9822", Model::Position::Operator);
+        Model::EntityID id = accountService.createEmployeeAccount(name, email, password, Model::Position::Operator);
         REQUIRE(bootstrapper.getAccountService().getAccountsAmount() == 1);
 
         auto account = accountService.getEmployee(id);
@@ -63,13 +75,15 @@ namespace Test {
         REQUIRE(account.is_initialized());
 
         SECTION("change_email") {
-            accountService.changeEmail(id, "johnDow@yandex.ua");
-            REQUIRE(account->getEmail() == "johnDow@yandex.ua");
+            const std::string newEmail{ "johnDow@yandex.ua" };
+            accountService.changeEmail(id, newEmail);
+            REQUIRE(account->getEmail() == newEmail);
         }
 
         SECTION("change_password") {
-            accountService.changePassword(id, "838asdl00");
-            REQUIRE(account->getPasswordHash() == "838asdl00");
+            const std::string newPassword{ "johnDow@yandex.ua" };
+            accountService.changePassword(id, newPassword);
+            REQUIRE(account->getPasswordHash() == newPassword);
         }
 
         SECTION("promote") {
