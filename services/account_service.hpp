@@ -16,18 +16,18 @@ namespace Service {
     struct AccountService : public boost::noncopyable {
         virtual ~AccountService() noexcept = default;
 
-        virtual const Model::EntityID& createAccount(std::string name, std::string email, std::string passwordHash) = 0;
+        virtual const Model::EntityID& createAccount(const std::string& name, const std::string& email, const std::string& passwordHash) = 0;
 
         virtual const Model::EntityID& createEmployeeAccount(
-                std::string name, std::string email, std::string passwordHash, Model::Position accessLevel) = 0;
+                const std::string& name, const std::string& email, const std::string& passwordHash, Model::Position accessLevel) = 0;
 
         virtual boost::optional<const Model::Account&> getAccount(const Model::EntityID& entityId) const = 0;
 
         virtual boost::optional<const Model::Employee&> getEmployee(const Model::EntityID& entityId) const = 0;
 
-        virtual void changeEmail(const Model::EntityID& entityId, std::string newEmail) = 0;
+        virtual void changeEmail(const Model::EntityID& entityId, const std::string& newEmail) = 0;
 
-        virtual void changePassword(const Model::EntityID& entityId, std::string newPassword) = 0;
+        virtual void changePassword(const Model::EntityID& entityId, const std::string& newPassword) = 0;
 
         virtual void promote(const Model::EntityID& entityId, Model::Position newAccessLevel) = 0;
 

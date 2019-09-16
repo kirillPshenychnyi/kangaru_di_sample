@@ -11,7 +11,7 @@
 namespace Service {
 namespace Impl {
 
-    const Model::EntityID& AccountServiceImpl::createAccount(std::string name, std::string email, std::string passwordHash) {
+    const Model::EntityID& AccountServiceImpl::createAccount(const std::string& name, const std::string& email, const std::string& passwordHash) {
         if(name.empty() || email.empty() || passwordHash.empty()){
             throw std::domain_error(Model::Exceptions::wrongStringParamValue);
         }
@@ -19,7 +19,7 @@ namespace Impl {
         return create<Model::Account>(std::move(name), std::move(email), std::move(passwordHash), generator_());
     }
 
-    void AccountServiceImpl::changeEmail(const Model::EntityID& entityId, std::string newEmail) {
+    void AccountServiceImpl::changeEmail(const Model::EntityID& entityId, const std::string& newEmail) {
         if(newEmail.empty()){
             throw std::domain_error(Model::Exceptions::wrongStringParamValue);
         }
@@ -33,7 +33,7 @@ namespace Impl {
         entity->setEmail(std::move(newEmail));
     }
 
-    void AccountServiceImpl::changePassword(const Model::EntityID& entityId, std::string newPassword) {
+    void AccountServiceImpl::changePassword(const Model::EntityID& entityId, const std::string& newPassword) {
         if(newPassword.empty()){
             throw std::domain_error(Model::Exceptions::wrongStringParamValue);
         }
@@ -75,7 +75,7 @@ namespace Impl {
     }
 
     const Model::EntityID&
-    AccountServiceImpl::createEmployeeAccount(std::string name, std::string email, std::string passwordHash,
+    AccountServiceImpl::createEmployeeAccount(const std::string& name, const std::string& email, const std::string& passwordHash,
                                               Model::Position accessLevel) {
         if(name.empty() || email.empty() || passwordHash.empty()){
             throw std::domain_error(Model::Exceptions::wrongStringParamValue);
